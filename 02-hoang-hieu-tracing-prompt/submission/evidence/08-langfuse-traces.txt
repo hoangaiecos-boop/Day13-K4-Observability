@@ -1,0 +1,26 @@
+# Danh sách traces trên Langfuse
+# Host: https://jp.cloud.langfuse.com  |  Project: My Project (davidaiecos's Organization)
+# Tổng số traces: 19
+# URL: https://jp.cloud.langfuse.com/project/cmsogrbun002vad0fc58rhpf8/traces
+
+trace_id                           correlation_id  session              label       ver  source
+------------------------------------------------------------------------------------------------------
+6a78668cbc658b7e208f2baa918c783d   req-2f96475e    k4-challenge-s01     production  1    langfuse
+85dff80bc3e26081c3929c347d18c92e   req-3c62c46a    k4-challenge-s03     production  1    langfuse
+d26eb8f74e4d33e6eb95ce03519f9efa   req-4df7ebab    k4-challenge-s04     production  1    langfuse
+0f1b558c341feff17f57dc985f8226e5   req-41513c3b    k4-challenge-s05     production  1    langfuse
+f5e1c300815ed0b058cec69b9dce159b   req-909f8e05    k4-challenge-s02     production  1    langfuse
+ed226edda8d41c1315a936124c82fc6c   req-72f6712a    prompt-rollback      production  1    langfuse
+a0160354a534357e2758979159537b61   req-12770db7    prompt-rollback      production  2    langfuse
+dec9e3fea2b0f4680a6d9d449eb86640   req-d275cf0a    prompt-compare       candidate   2    langfuse
+01b670aaa6a235c194bb428377db3064   req-ab996fed    prompt-compare       baseline    1    langfuse
+0e6dbfd2d5696ec4f3390ae6188dfdb3   req-a1341f12    s10                  baseline    1    langfuse
+6ff6db89ac6535f6735adfbdcac7d648   req-526004ca    s09                  baseline    1    langfuse
+a7be732314921bc4fcce38a194c46bd8   req-9e05e433    s08                  baseline    1    langfuse
+a0b139297a9059e73cc032fdc4b0b4a0   req-34355373    s07                  baseline    1    langfuse
+dbf5b27db7d90f707c316e49add679fd   req-33d23240    s06                  baseline    1    langfuse
+6ac0a2b68b08d96cd886bd730bb34ed6   req-14bcc9f6    s05                  baseline    1    langfuse
+8c63a19dc9e6ef71a9d751c35a9b6a87   req-7d98f813    s04                  baseline    1    langfuse
+1a6bb498032e57e8871937cd3ea5f14f   req-5f4b912e    s03                  baseline    1    langfuse
+530aaaa83890b586f9b3ffb406d695ae   req-f3143f0b    s02                  baseline    1    langfuse
+81c3d5e56b58e89df9cc6b4b9d4d465a   req-ee0df8d4    s01                  baseline    1    langfuse
