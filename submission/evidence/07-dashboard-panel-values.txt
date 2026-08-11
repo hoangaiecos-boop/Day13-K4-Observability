@@ -1,0 +1,13 @@
+# Giá trị 6 panel tính trực tiếp từ data/logs.jsonl (đối chiếu với ảnh dashboard)
+# Contract: Day 13 AI Observability | time_range=60m | refresh=30s
+# Công cụ: Streamlit (scripts/dashboard.py) — http://localhost:8501
+
+1. latency   p50=155ms p95=2657ms p99=2659ms                            | threshold: p95 <= 3000 ms
+2. traffic   count=19 request                                           | threshold: rate_per_minute >= 1
+3. errors    error_rate=0.00% breakdown={}                              | threshold: error_rate_pct <= 2
+4. cost      total=$0.039567                                            | threshold: total <= 2.5 usd
+5. tokens    tokens_in=804 tokens_out=2477                              | threshold: sum_by_field <= 50000
+6. quality   mean=0.853                                                 | threshold: mean >= 0.75
+
+Ghi chú: cửa sổ này CÓ chứa 5 request của challenge rag_slow nên p95 bị kéo lên
+trong khi p50 giữ nguyên — đúng dấu hiệu sự cố chỉ ảnh hưởng một nhánh request.

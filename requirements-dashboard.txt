@@ -1,0 +1,5 @@
+# Dependency riêng cho dashboard 6 panel (scripts/dashboard.py).
+# Tách khỏi requirements.txt để không đụng vào dependency chấm điểm của lab.
+streamlit==1.41.1
+pandas==2.2.3
+altair==5.5.0

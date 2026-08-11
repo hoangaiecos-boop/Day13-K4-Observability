@@ -1,19 +1,19 @@
 alerts:
-  - name: TODO_alert_1
-    severity: TODO
-    condition: TODO
+  - name: ChatLatencyP95Breach
+    severity: P1
+    condition: p95(latency_ms) over response_sent > 3000 for 5m
     type: symptom-based
-    owner: TODO
+    owner: Dashboard, SLO & Alert
     runbook: docs/alerts.md#alert-1
-  - name: TODO_alert_2
-    severity: TODO
-    condition: TODO
+  - name: ChatErrorRateBreach
+    severity: P1
+    condition: count(request_failed) / count(request_received) * 100 > 2 for 5m
     type: symptom-based
-    owner: TODO
+    owner: Incident, Report & Demo
     runbook: docs/alerts.md#alert-2
-  - name: TODO_alert_3
-    severity: TODO
-    condition: TODO
+  - name: ChatQualityDrop
+    severity: P2
+    condition: mean(quality_score) over response_sent < 0.75 for 15m
     type: symptom-based
-    owner: TODO
+    owner: Tracing & Prompt Version
     runbook: docs/alerts.md#alert-3
