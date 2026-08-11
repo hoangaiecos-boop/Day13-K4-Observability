@@ -1,0 +1,8 @@
+# Bằng chứng correlation ID xuyên suốt 1 request
+# correlation_id = req-ee0df8d4
+# Cùng 1 ID ở cả request_received và response_sent, kèm enrichment đầy đủ
+# (user_id_hash, session_id, feature, model, env).
+# ID này cũng có trên Langfuse dưới dạng tag `cid:<correlation_id>` => nối được log <-> trace.
+
+{"service": "api", "payload": {"message_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"}, "event": "request_received", "user_id_hash": "2055254ee30a", "model": "claude-sonnet-4-5", "env": "dev", "session_id": "s01", "feature": "qa", "correlation_id": "req-ee0df8d4", "level": "info", "ts": "2026-08-11T09:38:05.207281Z"}
+{"service": "api", "latency_ms": 520, "tokens_in": 45, "tokens_out": 91, "cost_usd": 0.0015, "quality_score": 0.9, "payload": {"answer_preview": "Starter answer. Teams should improve this output logic and add better quality ch..."}, "event": "response_sent", "user_id_hash": "2055254ee30a", "model": "claude-sonnet-4-5", "env": "dev", "session_id": "s01", "feature": "qa", "correlation_id": "req-ee0df8d4", "level": "info", "ts": "2026-08-11T09:38:05.749611Z"}
