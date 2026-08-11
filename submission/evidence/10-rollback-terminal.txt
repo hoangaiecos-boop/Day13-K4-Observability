@@ -1,0 +1,7 @@
+### PROMOTE production -> v2 (script đã sửa)
+TRƯỚC:  v1 labels=['baseline', 'production'] | v2 labels=['candidate', 'latest']
+SAU:    v1 labels=['baseline'] | v2 labels=['candidate', 'production', 'latest']
+=> label 'production' hiện trỏ tới v2
+TRƯỚC:  v1 labels=['baseline'] | v2 labels=['candidate', 'production', 'latest']
+SAU:    v1 labels=['baseline', 'production'] | v2 labels=['candidate', 'latest']
+=> label 'production' hiện trỏ tới v1

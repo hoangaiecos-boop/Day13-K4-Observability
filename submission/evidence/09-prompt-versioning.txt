@@ -1,0 +1,64 @@
+# Prompt versioning — day13-chat
+# Langfuse JP: https://jp.cloud.langfuse.com
+# Project: My Project (davidaiecos's Organization) — id cmsogrbun002vad0fc58rhpf8
+
+## 1. Hai version đã tạo (scripts/setup_prompts.py)
+v1  labels: baseline, production   -> "You are the Day 13 lab assistant. / Feature / Docs / Question"
+v2  labels: candidate, latest      -> thêm "Answer in at most 3 sentences." + "Cite the doc you used."
+Cả hai giữ nguyên ba biến bắt buộc {{feature}} {{docs}} {{message}} theo prompt contract.
+
+## 2. Cùng một input, hai label khác nhau (session prompt-compare)
+input: {"user_id":"cmp-01","session_id":"prompt-compare","feature":"qa",
+        "message":"Explain observability in one line"}
+
+LANGFUSE_PROMPT_LABEL=baseline
+  correlation_id : req-ab996fed
+  trace_id       : 01b670aaa6a235c194bb428377db3064
+  metadata       : prompt_label=baseline  prompt_version=1  prompt_source=langfuse
+
+LANGFUSE_PROMPT_LABEL=candidate
+  correlation_id : req-d275cf0a
+  trace_id       : dec9e3fea2b0f4680a6d9d449eb86640
+  metadata       : prompt_label=candidate prompt_version=2  prompt_source=langfuse
+
+=> Cùng input, chỉ đổi label, trace ghi đúng version tương ứng.
+   prompt_source=langfuse (không phải local-fallback) chứng minh app lấy prompt managed thật.
+
+## 3. Promote và rollback label production (scripts/promote_prompt.py)
+
+PROMOTE  production -> v2:
+  TRƯỚC:  v1 labels=['baseline', 'production'] | v2 labels=['candidate', 'latest']
+  SAU:    v1 labels=['baseline']               | v2 labels=['candidate', 'production', 'latest']
+
+  Request ngay sau promote (session prompt-rollback):
+    correlation_id : req-12770db7
+    trace_id       : a0160354a534357e2758979159537b61
+    metadata       : prompt_label=production prompt_version=2
+
+ROLLBACK production -> v1:
+  TRƯỚC:  v1 labels=['baseline']               | v2 labels=['candidate', 'production', 'latest']
+  SAU:    v1 labels=['baseline', 'production'] | v2 labels=['candidate', 'latest']
+
+  Request ngay sau rollback (cùng session prompt-rollback):
+    correlation_id : req-72f6712a
+    trace_id       : ed226edda8d41c1315a936124c82fc6c
+    metadata       : prompt_label=production prompt_version=1
+
+=> Hai trace cùng label 'production' nhưng khác version chứng minh rollback có hiệu lực thật.
+   Chỉ label 'production' di chuyển; 'baseline' ở lại v1 và 'candidate' ở lại v2.
+
+## 4. Một lỗi đã gặp và cách sửa (đáng ghi lại)
+Bản đầu của promote_prompt.py gửi PATCH {"newLabels": ["production"]}. API Langfuse
+THAY THẾ toàn bộ label của version chứ không thêm vào, nên lệnh đó đã xoá mất
+'candidate' trên v2 và kéo theo 'baseline' trên v1 — trạng thái label sai lệch so với
+docs/PROMPT_VERSIONING.md mà không có cảnh báo nào.
+Cách sửa: đọc label hiện có của version đích rồi gửi TRỌN BỘ label mong muốn
+(giữ nguyên vai trò baseline/candidate, chỉ di chuyển production). Bỏ 'latest' khỏi
+payload vì Langfuse tự quản label đó.
+
+## 5. Cách nối trace <-> log
+Mỗi trace mang tag `cid:<correlation_id>` (app/agent.py) và generation metadata cũng có
+correlation_id. Trong Langfuse, lọc theo tag `cid:req-xxxxxxxx` để mở đúng trace của một
+log line trong data/logs.jsonl.
+Lưu ý: correlation_id KHÔNG đặt trong trace metadata vì public test
+tests/test_agent_prompt_trace.py khoá cứng trace metadata phải đúng 4 field prompt_*.
